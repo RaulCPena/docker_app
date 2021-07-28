@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template
 import pickle
-# import trims 
 import pandas as pd
 
 app = Flask(__name__)
