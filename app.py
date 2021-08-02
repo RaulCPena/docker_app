@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import pickle
 import pandas as pd
+import os
 
 app = Flask(__name__)
 # temp value - to be filled in
@@ -8,28 +9,11 @@ numColumns = 3
 
 loaded_model = pickle.load(open("./Models/model_xgb_over.sav", "rb"))
 
-# data_columns = ['Pclass', 'Age', 'Sibsp', 'Parch', 'Fare', 'Gender','Area of Town']
+
 @app.route('/',methods=["GET","POST"])
 def home():
     message = "Welcome to my flask based web application ... !!!"
     return render_template("home.html", message = message)
-
-# trim = 'default trim value!'
-# trimNum = -7
-# @app.route('/changedTrim',methods=['GET', 'POST'])
-# def changedTrim():
-    print('in changedTrim, trim name is:', request)
-    print(request.get_data())
-    data = request.get_data();
-    # print(dir(data))
-    # print(type(data))
-    # print(str(data))
-    trim=str(data)[2:-1]
-    # print()
-    print(trim)
-    trimNum = trims.trimsDict[trim]
-    print("trimNumber:", trimNum)
-    return 'changedTrim route success'
 
 
 @app.route('/getXGBoost',methods=["GET","POST"])
@@ -74,5 +58,6 @@ def getXGBoost():
         return "Will Default"
         
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', debug=True, port=port)
